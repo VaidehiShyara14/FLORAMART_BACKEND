@@ -1,12 +1,26 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
+from fastapi.middleware.cors import CORSMiddleware  # ✅ this is needed!
+from fastapi.responses import JSONResponse
 import fm_backend_db as fm_db
 import json
 import schemas
-from fastapi import FastAPI, Request
-from fastapi.responses import JSONResponse
 import base64
 import io
 import pandas as pd
+
+# ✅ Only ONE instance of FastAPI
+app = FastAPI()
+
+# ✅ Add CORS middleware to allow frontend
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["https://floramart-fronted.onrender.com"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
 
 app = FastAPI()
 
@@ -144,8 +158,6 @@ def get_submit_order_details_data(order_data:schemas. OrderForm):
         return {"status": "Success", "message": "Order submitted successfully"}
     else:
         return {"status": "Error", "message": result}    
-
-
 
 
 
