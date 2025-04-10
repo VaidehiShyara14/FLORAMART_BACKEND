@@ -10,6 +10,11 @@ import pandas as pd
 
 app = FastAPI()
 
+@app.get("/")
+def read_root():
+    return {"message": "FloraMart backend is running!"}
+
+
 @app.post("/save_user_signup_details")
 def save_user_signup_details(signup_details: schemas.UsersignUp):
     print("Received signup details: ", signup_details)
