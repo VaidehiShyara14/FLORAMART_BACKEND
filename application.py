@@ -25,7 +25,6 @@ def read_root():
     return {"message": "FloraMart backend is running!"}
 
 
-
 @app.post("/save_user_signup_details")
 def save_user_signup_details(signup_details: schemas.UsersignUp):
     print("Received signup details: ", signup_details)
@@ -81,26 +80,8 @@ def get_plant_image_data(filter_data:schemas.FilterPlant):
     return response
     # return json.dumps(response)   
 
-
-# @app.post("/get_plant_image_data")
-# def get_plant_image_data(filter_data: schemas.FilterPlant):
-#     current_admin_email = filter_data.dict().get("adminEmail")  # You pass this from frontend
-
-#     # Fetch all images NOT uploaded by current admin
-#     data = supabase.table("plants_images").select("*").neq("uploader_email", current_admin_email).execute()
-#     result = data.data
-    
-#     response = {
-#         "data": result
-#     }
-#     return response
-
-
-
-
 @app.post("/save_image")
 def save_image(image_data:schemas.ImageData):
-    # uploaderEmail = request.form.get("uploaderEmail")
     result = fm_db.upload_image(image_data.dict())
     response = {
         "data" : result
@@ -125,6 +106,30 @@ def get_cart_details_data(cart_data:schemas.CartIcon):
         "data" : result
     }
     return response
+
+# @app.route("/get_update_cart_quantity")
+# def update_cart_quantity(cart_data:schemas.UpdateCartQuantityRequest):
+    
+#     print("Received cart data:", cart_data)
+#     result = fm_db.update_cart_quantity(cart_data['id'], cart_data['quantity'])
+#     return json({"message": "Quantity updated successfully"})
+
+#     return json
+    
+# @app.route("/get_remove_cart_item")
+# def remove_cart_item(cart_data:schemas.RemoveCartItemRequest):
+    
+#     print("Received cart data:", cart_data)
+#     result = fm_db.remove_cart_item(cart_data['id'])
+#     return json({"message": "Item removed successfully"})
+    
+#     return json
+# @app.post("/get_update_cart_quantity_data")
+# def get_update_cart_quantity(cart_data:schemas.UpdateCartQuantityRequest):
+#     # cart_data = request.get_json()  # Parse JSON from request
+#     print("Received cart data:", cart_data)
+#     result = fm_db.get_update_cart_quantity_data((cart_data.dict()))
+#     return json({"message": "Quantity updated successfully"})
     
 @app.post("/get_remove_cart_item_data")
 def get_remove_cart_item(remove_cart_data:schemas.RemoveCartItemRequest):
@@ -133,30 +138,18 @@ def get_remove_cart_item(remove_cart_data:schemas.RemoveCartItemRequest):
     result = fm_db.get_remove_cart_item_data((remove_cart_data.dict()))
     return JSONResponse(content={"message": "Item removed successfully"})
 
-# @app.post("/get_submit_order_details_data")
-# def get_submit_order_details_data(ordere_data: schemas.OrderForm):
-#     print("Received contact form data: ", ordere_data)
-    
-#     # Save the data to the database using the backend function
-#     result = fm_db.save_submit_order_details(ordere_data.dict())
-    
-#     if result == "Success":
-#         return {"status": "Success", "message": "Message submitted successfully"}
-#     else:
-#         return {"status": "Error", "message": result}
-    
-
 @app.post("/get_submit_order_details_data")
-def get_submit_order_details_data(order_data:schemas. OrderForm):
-    print("Received order form data: ", order_data)
-
-    result = fm_db.save_submit_order_details(order_data.dict())
+def get_submit_order_details_data(ordere_data: schemas.OrderForm):
+    print("Received contact form data: ", ordere_data)
+    
+    # Save the data to the database using the backend function
+    result = fm_db.save_submit_order_details(ordere_data.dict())
+    
     if result == "Success":
-        return {"status": "Success", "message": "Order submitted successfully"}
+        return {"status": "Success", "message": "Message submitted successfully"}
     else:
-        return {"status": "Error", "message": result}    
-
-
+        return {"status": "Error", "message": result}
+    
 
 
 
