@@ -1,5 +1,5 @@
 from fastapi import FastAPI, Request
-from fastapi.middleware.cors import CORSMiddleware  # ✅ this is needed!
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 import fm_backend_db as fm_db
 import json
@@ -14,19 +14,16 @@ app = FastAPI()
 # ✅ Add CORS middleware to allow frontend
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://floramart-fronted.onrender.com"],
+    allow_origins=["https://floramart-fronted.onrender.com"],  # Note: check spelling here
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-
-
-app = FastAPI()
-
 @app.get("/")
 def read_root():
     return {"message": "FloraMart backend is running!"}
+
 
 
 @app.post("/save_user_signup_details")
